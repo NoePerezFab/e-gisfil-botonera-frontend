@@ -9,14 +9,14 @@ import Login from "./modules/Login";
 function App() {
   const [sucursal, setsucursal] = useState({})
   const [mostrador, setmostrador] = useState({})
-
+  const [turnoAtencion, setturnoAtencion] = useState({})
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login setsucursal={setsucursal} setmostrador={setmostrador}/>}/>
-        <Route path="/llamados" element={<Llamados mostrador={mostrador}/>}/>
-        <Route path="/atencion" element={<Atencion mostrador={mostrador} sucursal={sucursal}/>}/>
+        <Route path="/llamados" element={<Llamados mostrador={mostrador} setturnoAtencion={setturnoAtencion} sucursal={sucursal}/>}/>
+        <Route path="/atencion" element={<Atencion mostrador={mostrador} turnoAtencion={turnoAtencion}/>}/>
       </Routes>
     </Router>
   );

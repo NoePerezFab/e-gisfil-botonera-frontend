@@ -3,11 +3,12 @@ import { Navigate } from "react-router-dom"
 import Menu from "./Menu"
 
 
-const Llamados = ({mostrador}) => {
+const Llamados = ({mostrador,setturnoAtencion,sucursal}) => {
     const intervalRef = useRef() 
     const [red, setred] = useState(false)
     const [fecha, setfecha] = useState(null)
-
+    const [menssage, setmenssage] = useState(false)
+    const messageref = useRef()
     const convertNumber = (n)=>{
         if(n < 10){
             return "0"+n
@@ -20,7 +21,6 @@ const Llamados = ({mostrador}) => {
         const getFecha = () => {
             
             const fechaActual = new Date()
-            console.log(fechaActual);
             setfecha({dia : convertNumber(fechaActual.getDate()),
                         mes : convertNumber(fechaActual.getMonth()+1),
                         anio : fechaActual.getFullYear(),
@@ -33,10 +33,37 @@ const Llamados = ({mostrador}) => {
         
         
     }, [])
-    const redireccionar = () =>{
-        clearInterval(intervalRef.current)
-        setred(true)
+    const redireccionar = async () =>{
+            const response = await fetch('http://192.168.200.216:8080/botoneraback/api/llamado?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio,{ 
+
+                method: 'GET',
+                mode: 'cors', // <---
+                cache: 'default',
+              })
+            
+            const responseJson = await response.json()
+        if(!Array.isArray(responseJson)){
+            clearInterval(intervalRef.current)
+            setturnoAtencion(responseJson)
+            setred(true)
+        }else{
+            showMessage()
+        }
+        
     }
+
+    const showMessage = () =>{
+            setmenssage(true)
+            messageref.current = setInterval(hideMessage,2000)
+    }
+
+    const hideMessage = () =>{
+        setmenssage(false)
+        clearInterval(messageref.current)
+
+    }
+
+    
 
     return (
         <>
@@ -55,6 +82,12 @@ const Llamados = ({mostrador}) => {
         </div>:
 
         <Navigate to={ "/atencion"}/>}
+
+        {menssage ?
+         <div class="alert alert-primary" role="alert">
+             No hay turnos en espera
+                </div> :
+                <></> }
         </>
     )
 }

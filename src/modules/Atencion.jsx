@@ -3,36 +3,51 @@ import { Navigate } from "react-router-dom"
 import Menu from "./Menu"
 
 
-const Atencion = ({mostrador,sucursal}) => {
+const Atencion = ({mostrador,turnoAtencion}) => {
     const intervalRef = useRef() 
     const [red, setred] = useState(false)
-    const [time, settime] = useState({mins : 0, secs : 0})
+    const [time, settime] = useState(0)
     
     
     useEffect(() => {
         const timer = () =>{
-            let tiempo = time
-            console.log(tiempo);
-            tiempo.secs = tiempo.secs + 1
-            if(tiempo.secs === 60 ){
-                tiempo.secs = 0
-                tiempo.mins = tiempo.mins + 1
-            }
-            settime(tiempo)
+           settime((secs) => secs + 1)
         }
         intervalRef.current = setInterval(timer,1000)
     }, [])
-    const redireccionar = () =>{
+    const redireccionar = async () =>{
+            const bodyJson = JSON.stringify(turnoAtencion)
+            const response = await fetch('http://192.168.200.216:8080/botoneraback/api/finalizarturno',{ 
+                headers : { 'Content-Type': 'application/json' },
+                method: 'POST',
+                mode: 'cors', // <---
+                body : bodyJson,
+                cache: 'default',
+              })
+            const responseJson = await response.json()
+            console.log(responseJson);
+
+        clearInterval(intervalRef.current)
         setred(true)
     }
+    const formattime = (timer) =>{
+        const getSeconds = `0${(timer % 60)}`.slice(-2)
+        const minutes = `${Math.floor(timer / 60)}`
+        const getMinutes = `0${minutes % 60}`.slice(-2)
+        const getHours = `0${Math.floor(timer / 3600)}`.slice(-2)
 
+        return `${getHours} : ${getMinutes} : ${getSeconds}`
+    }
+
+   
     return (
        <>
         
         <Menu/>
         
         <h2 className="pt-4 mt-5 text-center">{mostrador.nombre}</h2>
-         <h4 className="text-center"> {time.mins}:{time.secs}</h4>
+         <h4 className="text-center"> {formattime(time)}</h4>
+         <h4 className="text-center"> Atendiendo turno : {turnoAtencion.turno}</h4>
        
         
         {!red ?
