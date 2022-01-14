@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import {HashRouter as Router, Route, Routes } from "react-router-dom";
+import Atencion from "./modules/Atencion";
+import Llamados from "./modules/Llamados";
+import Login from "./modules/Login";
+
+
 
 function App() {
+  const [sucursal, setsucursal] = useState({})
+  const [mostrador, setmostrador] = useState({})
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login setsucursal={setsucursal} setmostrador={setmostrador}/>}/>
+        <Route path="/llamados" element={<Llamados mostrador={mostrador}/>}/>
+        <Route path="/atencion" element={<Atencion mostrador={mostrador} sucursal={sucursal}/>}/>
+      </Routes>
+    </Router>
   );
 }
 
