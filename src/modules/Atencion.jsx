@@ -17,7 +17,7 @@ const Atencion = ({mostrador,turnoAtencion}) => {
     }, [])
     const redireccionar = async () =>{
             const bodyJson = JSON.stringify(turnoAtencion)
-            const response = await fetch('http://192.168.200.216:8080/botoneraback/api/finalizarturno',{ 
+            const response = await fetch('../botoneraback/api/finalizarturno',{ 
                 headers : { 'Content-Type': 'application/json' },
                 method: 'POST',
                 mode: 'cors', // <---

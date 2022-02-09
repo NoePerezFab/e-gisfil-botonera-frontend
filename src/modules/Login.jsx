@@ -8,14 +8,15 @@ const Login = ({setsucursal,setmostrador}) => {
     const [mostradores, setmostradores] = useState([])
     useEffect(() => {
         const getSucursales = async () =>{
-            const response = await fetch('http://192.168.200.216:8080/botoneraback/api/sucursales',{ 
+            const response = await fetch('../botoneraback/api/sucursales',{ 
                 headers : { 'Content-Type': 'application/json' },
                 method: 'GET',
-                mode: 'cors', // <---
+               
                 cache: 'default',
               })
             const responseJson = await response.json()
             setsucursales(responseJson)
+            
         }
         
         getSucursales()

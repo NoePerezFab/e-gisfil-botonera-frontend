@@ -34,10 +34,10 @@ const Llamados = ({mostrador,setturnoAtencion,sucursal}) => {
         
     }, [])
     const redireccionar = async () =>{
-            const response = await fetch('http://192.168.200.216:8080/botoneraback/api/llamado?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio,{ 
+            const response = await fetch('../botoneraback/api/llamado?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio+'&clave='+mostrador.clave,{ 
 
                 method: 'GET',
-                mode: 'cors', // <---
+                mode: 'no-cors', // <---
                 cache: 'default',
               })
             
