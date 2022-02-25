@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Navigate } from "react-router-dom"
-import Menu from "./Menu"
+import MenuEnAtencion from "./MenuEnAtencion"
 
 
 const Atencion = ({mostrador,turnoAtencion}) => {
@@ -43,7 +43,7 @@ const Atencion = ({mostrador,turnoAtencion}) => {
     return (
        <>
         
-        <Menu/>
+        <MenuEnAtencion setred={setred} intervalRef={intervalRef} turnoAtencion={turnoAtencion}/>
         
         <h2 className="pt-4 mt-5 text-center">{mostrador.nombre}</h2>
          <h4 className="text-center"> {formattime(time)}</h4>

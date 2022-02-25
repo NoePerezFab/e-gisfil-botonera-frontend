@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Navigate } from "react-router-dom"
-import Menu from "./Menu"
+import MenuLlamados from "./MenuLlamados"
 
 
 const Llamados = ({mostrador,setturnoAtencion,sucursal}) => {
@@ -34,7 +34,16 @@ const Llamados = ({mostrador,setturnoAtencion,sucursal}) => {
         
     }, [])
     const redireccionar = async () =>{
-            const response = await fetch('../botoneraback/api/llamado?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio+'&clave='+mostrador.clave,{ 
+        //Llamado normal
+           /* const response = await fetch('../botoneraback/api/llamado?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio+'&clave='+mostrador.clave,{ 
+
+                method: 'GET',
+                mode: 'no-cors', // <---
+                cache: 'default',
+              })*/
+
+        //Llamado por prioridad, tomando en cuenta tiempo maximo de espera
+              const response = await fetch('../botoneraback/api/llamadoprioridad?id_sucursal='+sucursal.id+'&tipo_servicio='+mostrador.tipo_servicio+'&clave='+mostrador.clave,{ 
 
                 method: 'GET',
                 mode: 'no-cors', // <---
@@ -68,7 +77,8 @@ const Llamados = ({mostrador,setturnoAtencion,sucursal}) => {
     return (
         <>
         
-        <Menu/>
+        <MenuLlamados mostrador={mostrador} setturnoAtencion={setturnoAtencion} 
+        sucursal={sucursal} setred={setred} intervalRef={intervalRef}/>
         
         <h2 className="pt-4 mt-5 text-center">{mostrador.nombre}</h2>
         {fecha !== null ? <h4 className="text-center">{fecha.dia}/{fecha.mes}/{fecha.anio}    {fecha.hora}:{fecha.minutos}:{fecha.segundos}</h4>
