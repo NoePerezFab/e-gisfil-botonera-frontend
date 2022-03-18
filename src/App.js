@@ -6,6 +6,7 @@ import Login from "./modules/Login";
 
 
 
+
 function App() {
   const [sucursal, setsucursal] = useState({})
   const [mostrador, setmostrador] = useState({})
@@ -14,7 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login setsucursal={setsucursal} setmostrador={setmostrador}/>}/>
+        <Route path="/" element={<Login setsucursal={setsucursal} setmostrador={setmostrador}/>}/> 
         <Route path="/llamados" element={<Llamados mostrador={mostrador} setturnoAtencion={setturnoAtencion} sucursal={sucursal}/>}/>
         <Route path="/atencion" element={<Atencion mostrador={mostrador} turnoAtencion={turnoAtencion}/>}/>
       </Routes>
